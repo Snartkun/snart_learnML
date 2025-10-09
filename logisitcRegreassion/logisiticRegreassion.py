@@ -30,7 +30,7 @@ def gradAscent(dataMatIn, classLabels):
         weights = weights + alpha * dataMatrix.transpose() * error
     return weights.getA()
 
-def plotDataSet():
+def plotDataSet(weights):
     dataMat, labelMat = loadDataSet()
     dataArr = np.array(dataMat)
     n = np.shape(dataMat)[0]
@@ -45,10 +45,14 @@ def plotDataSet():
     ax = fig.add_subplot(111)
     ax.scatter(xcord1, ycord1, s= 20, c= 'red', marker= 's', alpha=.5)
     ax.scatter(xcord2, ycord2, s=20, c='green', alpha=.5)
-    plt.title('DataSet')
-    plt.xlabel('x'); plt.ylabel('y')
+    x = np.arange(-3.0, 3.0, 0.1)
+    y = (-weights[0] - weights[1] * x) / weights[2]
+    ax.plot(x, y)
+    plt.title('BestFit')
+    plt.xlabel('X1'); plt.ylabel('X2')
     plt.show()
 
 if __name__ == '__main__':
     dataMat, labelMat = loadDataSet()
-    print(gradAscent(dataMat, labelMat))
+    weights = gradAscent(dataMat, labelMat)
+    plotDataSet(weights)
